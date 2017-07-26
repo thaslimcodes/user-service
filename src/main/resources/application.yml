@@ -1,0 +1,74 @@
+server:
+  port: 8079
+
+epsilon.cng.cities: Lucknow,New Delhi
+
+jwt:
+  issuer: com.ysg
+  audience: services
+  token:
+    expiry: 1
+  claim:
+    user: user
+    scopes: scopes
+
+spring:
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreply.com.ysg@gmail.com
+    password: iota@123
+    protocol: smtp
+    defaultEncoding: UTF-8
+    properties.mail.smtp:
+                     auth: true
+                     starttls.enable: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/app_user_role?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: iota
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialize: true
+
+# Keep the connection alive if idle for a long time (needed in production)
+    test-on-borrow: true
+    validationQuery: SELECT 1
+    max-idle: 5
+
+# Show or not log for each sql query
+  jpa:
+    show-sql: true
+
+# Hibernate ddl auto (create, create-drop, update)
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+---
+
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://${AWS_MYSQL_DB_HOST}/${AWS_MYSQL_DB_NAme}"?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: ${AWS_MYSQL_DB_USERNAme}"
+    password: ${AWS_MYSQL_DB_PASSWORD}
+    initialize: true
+
+
+ribbon:
+  ConnectTimeout: 1000000000
+  ReadTimeout: 100000000
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 100000000
