@@ -1,10 +1,11 @@
 package com.ysg.data;
 
-import com.ysg.model.YNEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by Thaslim on 27/03/17.

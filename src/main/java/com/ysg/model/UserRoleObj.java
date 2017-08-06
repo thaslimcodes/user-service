@@ -2,7 +2,10 @@ package com.ysg.model;
 
 import com.ysg.data.App;
 import com.ysg.data.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor

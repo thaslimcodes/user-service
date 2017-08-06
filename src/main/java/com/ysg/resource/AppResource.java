@@ -2,7 +2,9 @@ package com.ysg.resource;
 
 
 import com.ysg.data.App;
+import com.ysg.security.Secured;
 import com.ysg.service.AppService;
+import com.ysg.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class AppResource {
         return ResponseEntity.ok().body(appService.getAppsNotLinkedToUser(userId));
     }
 
-
+    @Secured(scopes = Constants.SUPER_ADMIN)
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity insert(@RequestBody App app) {

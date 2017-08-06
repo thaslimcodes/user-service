@@ -2,9 +2,7 @@ package com.ysg.resource;
 
 
 import com.ysg.data.UserRoleId;
-import com.ysg.model.EmailApp;
 import com.ysg.service.UserRoleService;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,7 @@ public class UserRoleResource {
         return ResponseEntity.ok().body(userRoleService.findAll());
     }
 
-    @RequestMapping(value="/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public ResponseEntity findByUserId(@PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(userRoleService.findByUserId(userId));
@@ -38,7 +36,7 @@ public class UserRoleResource {
         return ResponseEntity.ok().body(userRoleService.save(ur));
     }
 
-    @RequestMapping(value="/delete",method = RequestMethod.DELETE, produces = "application/json")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = "application/json")
     @ResponseBody
     public ResponseEntity delete(@RequestBody UserRoleId ur) {
         return ResponseEntity.ok().body(userRoleService.delete(ur));

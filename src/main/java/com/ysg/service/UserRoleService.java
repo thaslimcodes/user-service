@@ -4,7 +4,6 @@ package com.ysg.service;
 import com.ysg.dao.AppDao;
 import com.ysg.dao.RoleDao;
 import com.ysg.dao.UserRoleDao;
-import com.ysg.data.App;
 import com.ysg.data.UserRole;
 import com.ysg.data.UserRoleId;
 import com.ysg.model.Result;

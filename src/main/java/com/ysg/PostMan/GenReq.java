@@ -1,7 +1,7 @@
 package com.ysg.PostMan;
 
 
-import com.ysg.resource.*;
+import com.ysg.resource.AppResource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +30,7 @@ public class GenReq {
         Class c = null;
         switch (fileName) {
             case "AppResource":
-                c=AppResource.class;
+                c = AppResource.class;
                 break;
 //            case "CityResource":
 //                c=CityResource.class;

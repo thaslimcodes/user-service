@@ -52,4 +52,7 @@ public class RoleService {
         return new Result(1, role.getId());
     }
 
+    public List<Role> getRolesNotLinkedToAppUser(String appId, String userId) {
+        return roleDao.getRolesNotLinkedToAppUser(appId, userId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.ysg.model;
 
+import com.ysg.data.City;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +26,8 @@ public class Profile {
     @Getter
     @Setter
     private List<String> roles;
+
+    @Getter
+    @Setter
+    private List<City> cityList;
 }

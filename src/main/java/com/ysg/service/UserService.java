@@ -4,8 +4,8 @@ package com.ysg.service;
 import com.ysg.dao.AppDao;
 import com.ysg.dao.RoleDao;
 import com.ysg.dao.UserDao;
-import com.ysg.dao.UserRoleDao;
-import com.ysg.data.*;
+import com.ysg.data.City;
+import com.ysg.data.User;
 import com.ysg.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 /**
  * Created by Thaslim on 27/03/17.
  */
@@ -138,19 +139,19 @@ public class UserService {
         return new Result(1, user.getId());
     }
 
-    public UserInfoObj getAppInfo(EmailApp emailApp)  {
-        if(emailApp.getAppName()!=null && emailApp.getEmailId()!=null) {
+    public UserInfoObj getAppInfo(EmailApp emailApp) {
+        if (emailApp.getAppName() != null && emailApp.getEmailId() != null) {
             User user = userDao.findByEmail(emailApp.getEmailId());
             if (user != null) {
-                UserRoleObj userRoleObj = userRoleService.findByUserId(user.getId())
+                List<UserRoleObj> collect = userRoleService.findByUserId(user.getId())
                         .stream()
                         .filter(e -> e.getApp().getName().equalsIgnoreCase(emailApp.getAppName()))
-                        .findFirst()
-                        .orElse(new UserRoleObj());
-
+                        .collect(Collectors.toList());
+                String appName = collect.stream().map(e -> e.getApp().getId()).findFirst().orElse("");
+                List<String> linkedRoles = new ArrayList();
+                collect.stream().forEach(e -> linkedRoles.add(e.getRole().getName()));
                 List<City> linkedCities = userCityService.getLinkedCities(user.getId());
-                return new UserInfoObj(user, userRoleObj.getApp().getName(), userRoleObj.getRole().getName(), linkedCities);
-
+                return new UserInfoObj(user, appName, linkedRoles, linkedCities);
             }
         }
         return new UserInfoObj();
@@ -163,7 +164,7 @@ public class UserService {
     public List<UserRoleInfo> getUsersLinkedToApp(String appId) {
         List<UserRoleInfo> list = new ArrayList<UserRoleInfo>();
         userDao.getUsersLinkedToApp(appId).stream()
-                .forEach(e->list.add(new UserRoleInfo(e.getId(), userDao.findOne(e.getId().getUserId()), roleDao.findOne(e.getId().getRoleId()))));
+                .forEach(e -> list.add(new UserRoleInfo(e.getId(), userDao.findOne(e.getId().getUserId()), roleDao.findOne(e.getId().getRoleId()))));
 
         return list;
 

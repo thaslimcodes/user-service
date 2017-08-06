@@ -2,7 +2,6 @@ package com.ysg.dao;
 
 import com.ysg.data.User;
 import com.ysg.data.UserRole;
-import com.ysg.model.IdName;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

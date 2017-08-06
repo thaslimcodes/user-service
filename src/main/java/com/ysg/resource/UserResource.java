@@ -6,6 +6,7 @@ import com.ysg.model.*;
 import com.ysg.security.TokenService;
 import com.ysg.service.GoogleTokenService;
 import com.ysg.service.UserService;
+import com.ysg.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.ysg.util.ServiceUtil.error;
-import static com.ysg.util.ServiceUtil.isNullOrEmpty;
 
 /**
  * Created by Thaslim on 27/03/17.
@@ -25,82 +23,14 @@ import static com.ysg.util.ServiceUtil.isNullOrEmpty;
 public class UserResource {
 
     private static final Logger logger = LoggerFactory.getLogger(UserResource.class);
-
-    @Value("${jwt.audience}")
-    private String audience;
-
-    @Autowired
-    private TokenService tokenService;
-
-//    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
-//    @ResponseBody
-//    public ResponseEntity register(@RequestBody UserRegistration userRegistration) {
-//
-//        if (isNullOrEmpty(userRegistration.getEmail())) {
-//            return error("Email is required");
-//        }
-//
-//        if (isNullOrEmpty(userRegistration.getFirstname())) {
-//            return error("Firstname is required");
-//        }
-//
-//        if (isNullOrEmpty(userRegistration.getLastname())) {
-//            return error("Lastname is required");
-//        }
-//
-//        if (isNullOrEmpty(userRegistration.getApp())) {
-//            return error("User is required");
-//        }
-//
-//        if (isNullOrEmpty(userRegistration.getRole())) {
-//            return error("Role is required");
-//        }
-//
-//        Result result = userService.register(userRegistration);
-//        if (result.getCode() == 0) {
-//            return error("Failed to register");
-//        }
-//
-//        return ResponseEntity.ok(Result.OK);
-//    }
-//
-    
-    
-//    @HystrixCommand(fallbackMethod = "unauthorized")
-//    @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
-//    @ResponseBody
-//    public ResponseEntity signIn(@RequestBody Token token) {
-//
-//        GoogleTokenResponse res = googleTokenService.verify(token.getToken());
-//        if (res.getEmail() == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//
-//        UserScope userScope = userService.authenticate(res.getEmail());
-//        if (userScope == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//
-//        String[] scopes = new String[userScope.getRoles().size()];
-//        scopes = userScope.getRoles().toArray(scopes);
-//
-//        String session = tokenService.generate(userScope.getUser(), new String[]{audience}, scopes);
-//
-//        Profile profile = new Profile();
-//        profile.setName(res.getName());
-//        profile.setPhoto(res.getPicture());
-//        profile.setToken(session);
-//        profile.setRoles(userScope.getRoles());
-//
-//        return ResponseEntity.ok(profile);
-//    }
-
-//    private ResponseEntity unauthorized(Token token) {
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//    }
-
     @Autowired
     public UserService userService;
+    @Value("${jwt.audience}")
+    private String audience;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private GoogleTokenService googleTokenService;
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -119,6 +49,7 @@ public class UserResource {
     public ResponseEntity getUsersLinkedToApp(@RequestParam("appId") String appId) {
         return ResponseEntity.ok().body(userService.getUsersLinkedToApp(appId));
     }
+
     @RequestMapping(value = "/getUsersNotLinkedToApp", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public ResponseEntity getUsersNotLinkedToApp(@RequestParam("appId") String appId) {
@@ -145,10 +76,45 @@ public class UserResource {
     }
 
 
-    @RequestMapping(value="/getAppInfo", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/getAppInfo", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getAppInfo(@RequestBody EmailApp emailApp)  {
+    public ResponseEntity getAppInfo(@RequestBody EmailApp emailApp) {
         return ResponseEntity.ok().body(userService.getAppInfo(emailApp));
+    }
+
+    @HystrixCommand(fallbackMethod = "unauthorized")
+    @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity signIn(@RequestBody Token token) {
+        GoogleTokenResponse res = googleTokenService.verify(token.getToken());
+        if (res.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        if (token.getAppName() == null || token.getAppName().isEmpty()) {
+            token.setAppName(Constants.APP_NAME);
+        }
+        UserInfoObj userScope = userService.getAppInfo(new EmailApp(res.getEmail(), token.getAppName()));
+        if (userScope == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String[] scopes = new String[userScope.getRoles().size()];
+        scopes = userScope.getRoles().toArray(scopes);
+
+        String session = tokenService.generate(userScope.getUser().getEmail(), new String[]{audience}, scopes, userScope.getCityList());
+
+        Profile profile = new Profile();
+        profile.setName(res.getName());
+        profile.setPhoto(res.getPicture());
+        profile.setToken(session);
+        profile.setRoles(userScope.getRoles());
+        profile.setCityList(userScope.getCityList());
+
+        return ResponseEntity.ok(profile);
+    }
+
+    private ResponseEntity unauthorized(@RequestBody Token token) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 

@@ -11,4 +11,8 @@ public class Token {
     @Getter
     @Setter
     private String token;
+
+    @Getter
+    @Setter
+    private String appName;
 }

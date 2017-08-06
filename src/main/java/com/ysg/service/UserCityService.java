@@ -61,6 +61,7 @@ public class UserCityService {
     public List<City> getLinkedCities(String userId) {
         return userCityDao.getLinkedCities(userId);
     }
+
     public List<City> getNotLinkedCities(String userId) {
         return userCityDao.getNotLinkedCities(userId);
     }

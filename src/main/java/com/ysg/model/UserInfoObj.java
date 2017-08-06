@@ -1,8 +1,6 @@
 package com.ysg.model;
 
-import com.ysg.data.App;
 import com.ysg.data.City;
-import com.ysg.data.Role;
 import com.ysg.data.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +19,11 @@ public class UserInfoObj {
 
     @Getter
     @Setter
-    private String applicationName;
+    private String appName;
 
     @Getter
     @Setter
-    private String roleName;
+    private List<String> roles;
 
     @Getter
     @Setter

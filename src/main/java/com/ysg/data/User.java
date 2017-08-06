@@ -40,6 +40,6 @@ public class User {
     private YNEnum actvInd;
 
     public User() {
-        actvInd=YNEnum.Y;
+        actvInd = YNEnum.Y;
     }
 }
