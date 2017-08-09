@@ -48,7 +48,7 @@ public class RoleService {
             return new Result(0, "Role Id Cannnot be Emplty");
         } else {
             Role role1 = roleDao.findOne(role.getId());
-            if(role!=null) {
+            if(role1!=null) {
                 role1.setName(role.getName());
                 roleDao.save(role1);
             } else {
