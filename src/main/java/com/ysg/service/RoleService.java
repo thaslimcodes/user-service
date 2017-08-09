@@ -44,7 +44,7 @@ public class RoleService {
     }
 
     public Result save(Role role) {
-        if (role.getId() != null && !role.getId().isEmpty()) {
+        if (role.getId() == null || role.getId().isEmpty()) {
             return new Result(0, "Role Id Cannnot be Emplty");
         } else {
             Role role1 = roleDao.findOne(role.getId());
