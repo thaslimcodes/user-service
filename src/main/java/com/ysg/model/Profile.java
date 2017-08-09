@@ -1,6 +1,7 @@
 package com.ysg.model;
 
 import com.ysg.data.City;
+import com.ysg.data.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,10 @@ import java.util.List;
  * Created by Thaslim on 04/05/17.
  */
 public class Profile {
+
+    @Getter
+    @Setter
+    private String id;
 
     @Getter
     @Setter
@@ -25,7 +30,7 @@ public class Profile {
 
     @Getter
     @Setter
-    private List<String> roles;
+    private List<Role> roles;
 
     @Getter
     @Setter

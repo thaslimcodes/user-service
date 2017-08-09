@@ -36,6 +36,12 @@ public class RoleResource {
         return ResponseEntity.ok().body(roleService.getRolesNotLinkedToAppUser(appId, userId));
     }
 
+    @RequestMapping(value = "getRolesLinkedToAppUser", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity getRolesLinkedToAppUser(@RequestParam("appId") String appId, @RequestParam("userId") String userId) {
+        return ResponseEntity.ok().body(roleService.getRolesLinkedToAppUser(appId, userId));
+    }
+
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody

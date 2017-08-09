@@ -23,4 +23,7 @@ public interface RoleDao extends CrudRepository<Role, String> {
 
     @Query("SELECT r FROM Role r WHERE r.id NOT IN (SELECT ur.id.roleId FROM UserRole ur WHERE ur.id.appId=:appId AND ur.id.userId=:userId)")
     List<Role> getRolesNotLinkedToAppUser(@Param("appId") String appId, @Param("userId") String userId);
+
+    @Query("SELECT r FROM Role r WHERE r.id IN (SELECT ur.id.roleId FROM UserRole ur WHERE ur.id.appId=:appId AND ur.id.userId=:userId)")
+    List<Role> getRolesLinkedToAppUser(@Param("appId") String appId, @Param("userId") String userId);
 }

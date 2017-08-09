@@ -61,4 +61,8 @@ public class RoleService {
     public List<Role> getRolesNotLinkedToAppUser(String appId, String userId) {
         return roleDao.getRolesNotLinkedToAppUser(appId, userId);
     }
+
+    public List<Role> getRolesLinkedToAppUser(String appId, String userId) {
+        return roleDao.getRolesLinkedToAppUser(appId, userId);
+    }
 }

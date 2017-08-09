@@ -5,6 +5,7 @@ import com.ysg.dao.AppDao;
 import com.ysg.dao.RoleDao;
 import com.ysg.dao.UserDao;
 import com.ysg.data.City;
+import com.ysg.data.Role;
 import com.ysg.data.User;
 import com.ysg.model.*;
 import org.slf4j.Logger;
@@ -148,10 +149,14 @@ public class UserService {
                         .filter(e -> e.getApp().getName().equalsIgnoreCase(emailApp.getAppName()))
                         .collect(Collectors.toList());
                 String appName = collect.stream().map(e -> e.getApp().getId()).findFirst().orElse("");
-                List<String> linkedRoles = new ArrayList();
-                collect.stream().forEach(e -> linkedRoles.add(e.getRole().getId()));
+                List<String> roleIds = new ArrayList();
+                collect.stream().forEach(e -> roleIds.add(e.getRole().getId()));
+
+                List<Role> roles = new ArrayList();
+                collect.stream().forEach(e -> roles.add(e.getRole()));
+
                 List<City> linkedCities = userCityService.getLinkedCities(user.getId());
-                return new UserInfoObj(user, appName, linkedRoles, linkedCities);
+                return new UserInfoObj(user, appName, roleIds, roles, linkedCities);
             }
         }
         return new UserInfoObj();

@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ysg.data.City;
+import com.ysg.model.UserInfoObj;
 import com.ysg.model.UserScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,14 +48,17 @@ public class TokenService {
     // TODO: Change to dynamic
     private String SECRET = "iota@123";
 
-    public String generate(String user, String[] audience, String[] scopes, List<City> cityList) {
+    public String generate(UserInfoObj userInfoObj, String[] audience) {
         try {
+            String[] scopes = new String[userInfoObj.getRoles().size()];
+            scopes = userInfoObj.getRoleIds().toArray(scopes);
+
             String token = JWT.create()
                     .withIssuer(issuer)
                     .withIssuedAt(new Date())
                     .withExpiresAt(twoWeeks())
                     .withAudience(audience)
-                    .withClaim(userClaim, user)
+                    .withClaim(userClaim, userInfoObj.getUser().getId())
                     .withArrayClaim(scopesClaim, scopes)
                     .sign(Algorithm.HMAC512(SECRET));
 

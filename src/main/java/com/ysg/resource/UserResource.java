@@ -93,22 +93,21 @@ public class UserResource {
         if (token.getAppName() == null || token.getAppName().isEmpty()) {
             token.setAppName(Constants.APP_NAME);
         }
-        UserInfoObj userScope = userService.getAppInfo(new EmailApp(res.getEmail(), token.getAppName()));
-        if (userScope == null) {
+        UserInfoObj userInfoObj = userService.getAppInfo(new EmailApp(res.getEmail(), token.getAppName()));
+        if (userInfoObj == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String[] scopes = new String[userScope.getRoles().size()];
-        scopes = userScope.getRoles().toArray(scopes);
 
-        String session = tokenService.generate(userScope.getUser().getEmail(), new String[]{audience}, scopes, userScope.getCityList());
+        String session = tokenService.generate(userInfoObj, new String[]{audience});
 
         Profile profile = new Profile();
         profile.setName(res.getName());
+        profile.setId(userInfoObj.getUser().getId());
         profile.setPhoto(res.getPicture());
         profile.setToken(session);
-        profile.setRoles(userScope.getRoles());
-        profile.setCityList(userScope.getCityList());
+        profile.setRoles(userInfoObj.getRoles());
+        profile.setCityList(userInfoObj.getCityList());
 
         return ResponseEntity.ok(profile);
     }
