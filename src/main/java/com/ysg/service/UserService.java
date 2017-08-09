@@ -149,7 +149,7 @@ public class UserService {
                         .collect(Collectors.toList());
                 String appName = collect.stream().map(e -> e.getApp().getId()).findFirst().orElse("");
                 List<String> linkedRoles = new ArrayList();
-                collect.stream().forEach(e -> linkedRoles.add(e.getRole().getName()));
+                collect.stream().forEach(e -> linkedRoles.add(e.getRole().getId()));
                 List<City> linkedCities = userCityService.getLinkedCities(user.getId());
                 return new UserInfoObj(user, appName, linkedRoles, linkedCities);
             }
