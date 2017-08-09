@@ -45,10 +45,16 @@ public class RoleService {
 
     public Result save(Role role) {
         if (role.getId() != null && !role.getId().isEmpty()) {
-            return new Result(0, "Role Name cannot be updated only added. Provide blank Id");
+            return new Result(0, "Role Id Cannnot be Emplty");
+        } else {
+            Role role1 = roleDao.findOne(role.getId());
+            if(role!=null) {
+                role1.setName(role.getName());
+                roleDao.save(role1);
+            } else {
+                roleDao.save(role);
+            }
         }
-        role.setId(UUID.randomUUID().toString());
-        roleDao.save(role);
         return new Result(1, role.getId());
     }
 
