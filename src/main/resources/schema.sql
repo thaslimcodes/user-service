@@ -92,11 +92,11 @@ CREATE TABLE IF NOT EXISTS `user_city` (
 --
 -- Constraints for table `user_role`
 --
-ALTER TABLE `user_role`
-  ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `application` (`id`),
-  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
-  ADD CONSTRAINT `user_role_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `registered_user` (`id`);
-COMMIT;
+--ALTER TABLE `user_role`
+--  ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `application` (`id`),
+--  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+--  ADD CONSTRAINT `user_role_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `registered_user` (`id`);
+--COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
