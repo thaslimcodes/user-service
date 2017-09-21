@@ -1,9 +1,12 @@
 package com.ysg.service;
 
-import com.ysg.model.GoogleTokenResponse;
+import com.ysg.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
+
 
 /**
  * Created by jayaprakash on 04/05/17.
@@ -14,4 +17,19 @@ public interface GoogleTokenService {
 
     @RequestMapping("oauth2/v3/tokeninfo")
     GoogleTokenResponse verify(@RequestParam("id_token") String token);
+
+
+    @Component
+    class GoogleTokenServiceFallBack implements GoogleTokenService {
+
+        private static final Logger logger = LoggerFactory.getLogger(GoogleTokenServiceFallBack.class);
+
+        @Override
+        public GoogleTokenResponse verify(String token) {
+            logger.info("Google Token Service Failed");
+            return null;
+        }
+
+    }
+
 }

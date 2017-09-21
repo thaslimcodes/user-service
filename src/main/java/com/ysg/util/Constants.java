@@ -8,8 +8,8 @@ public interface Constants {
     String USER = "user";
     String ROLE = "role";
 
-    String APP_NAME = "APP_ROLE";
+    String APP_NAME = "SUPER_USER";
 
-    String SUPER_ADMIN = "SUPER_ADMIN";
+    String SUPER_ADMIN = "SA";
 
 }

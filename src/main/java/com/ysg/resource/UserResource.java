@@ -87,7 +87,7 @@ public class UserResource {
     @ResponseBody
     public ResponseEntity signIn(@RequestBody Token token) {
         GoogleTokenResponse res = googleTokenService.verify(token.getToken());
-        if (res.getEmail() == null) {
+        if (res == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         if (token.getAppName() == null || token.getAppName().isEmpty()) {
@@ -115,6 +115,4 @@ public class UserResource {
     private ResponseEntity unauthorized(@RequestBody Token token) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-
-
 }
