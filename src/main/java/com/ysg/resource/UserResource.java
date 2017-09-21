@@ -82,7 +82,6 @@ public class UserResource {
         return ResponseEntity.ok().body(userService.getAppInfo(emailApp));
     }
 
-    @HystrixCommand(fallbackMethod = "unauthorized")
     @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ResponseEntity signIn(@RequestBody Token token) {
@@ -112,7 +111,4 @@ public class UserResource {
         return ResponseEntity.ok(profile);
     }
 
-    private ResponseEntity unauthorized(@RequestBody Token token) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
-}
+ }
