@@ -69,25 +69,25 @@ CREATE TABLE IF NOT EXISTS `user_city` (
 -- Table structure for table `user_role`
 --
 
-CREATE TABLE IF NOT EXISTS `user_role` (
-  `user_id` char(36) NOT NULL,
-  `role_id` varchar(10) NOT NULL,
-  `app_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`,`app_id`),
-  KEY `role_id` (`role_id`),
-  KEY `app_id` (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+--CREATE TABLE IF NOT EXISTS `user_role` (
+--  `user_id` char(36) NOT NULL,
+--  `role_id` varchar(10) NOT NULL,
+--  `app_id` varchar(20) NOT NULL,
+--  PRIMARY KEY (`user_id`,`role_id`,`app_id`),
+--  KEY `role_id` (`role_id`),
+--  KEY `app_id` (`app_id`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
--- Constraints for dumped tables
+----
+---- Constraints for dumped tables
+----
 --
-
---
--- Constraints for table `user_city`
---
-ALTER TABLE `user_city`
-  ADD CONSTRAINT `user_city_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `registered_user` (`id`),
-  ADD CONSTRAINT `user_city_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
+----
+---- Constraints for table `user_city`
+----
+--ALTER TABLE `user_city`
+--  ADD CONSTRAINT `user_city_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `registered_user` (`id`),
+--  ADD CONSTRAINT `user_city_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
 
 --
 -- Constraints for table `user_role`
