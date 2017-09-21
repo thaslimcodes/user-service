@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface AppDao extends CrudRepository<App, String> {
 
-    App findByName(String name);
-
     @Query("select a from App a where a.id not in (select ur.id.appId from UserRole ur where ur.id.userId = :userId) ")
     List<App> getAppsNotLinkedToUser(@Param("userId") String userId);
 }

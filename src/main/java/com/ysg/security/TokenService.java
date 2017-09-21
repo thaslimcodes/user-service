@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ysg.data.City;
 import com.ysg.model.UserInfoObj;
 import com.ysg.model.UserScope;
 import org.slf4j.Logger;

@@ -44,15 +44,15 @@ public class UserResource {
         return ResponseEntity.ok().body(userService.findById(id));
     }
 
-    @RequestMapping(value = "/getUsersLinkedToApp", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/apps/{appId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getUsersLinkedToApp(@RequestParam("appId") String appId) {
+    public ResponseEntity getUsersLinkedToApp(@PathVariable("appId") String appId) {
         return ResponseEntity.ok().body(userService.getUsersLinkedToApp(appId));
     }
 
-    @RequestMapping(value = "/getUsersNotLinkedToApp", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/apps/{appId}/notLinked", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getUsersNotLinkedToApp(@RequestParam("appId") String appId) {
+    public ResponseEntity getUsersNotLinkedToApp(@PathVariable("appId") String appId) {
         return ResponseEntity.ok().body(userService.getUsersNotLinkedToApp(appId));
     }
 

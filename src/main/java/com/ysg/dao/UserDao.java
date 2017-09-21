@@ -22,13 +22,13 @@ public interface UserDao extends CrudRepository<User, String> {
      */
     User findByEmail(String email);
 
-    @Query(" SELECT r.name FROM User u, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND u.email = :email AND a.id = ur.id.appId AND a.name = :app ")
+    @Query(" SELECT r.name FROM User u, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND u.email = :email AND a.id = ur.id.appId AND a.id = :app ")
     List<String> getRoles(@Param("app") String app, @Param("email") String email);
 
-    @Query(" SELECT u.email FROM User u, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND r.name = :role AND a.id = ur.id.appId AND a.name = :app ")
+    @Query(" SELECT u.email FROM User u, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND r.name = :role AND a.id = ur.id.appId AND a.id = :app ")
     List<String> getEmailForRole(@Param("app") String app, @Param("role") String role);
 
-    @Query(" SELECT u.email FROM User u, City c, UserCity uc, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND r.name = :role AND u.id = uc.id.userId AND c.id = uc.id.cityId AND c.name = :city AND a.id = ur.id.appId AND a.name = :app ")
+    @Query(" SELECT u.email FROM User u, City c, UserCity uc, Role r, UserRole ur, App a WHERE u.id = ur.id.userId AND r.id = ur.id.roleId AND r.name = :role AND u.id = uc.id.userId AND c.id = uc.id.cityId AND c.name = :city AND a.id = ur.id.appId AND a.id = :app ")
     List<String> getEmailIdsForRoleAndCity(@Param("app") String app, @Param("role") String role, @Param("city") String city);
 
     @Query(" SELECT u.email FROM User u WHERE u.id = :id ")

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Thaslim on 22/04/17.
@@ -28,10 +27,6 @@ public class RoleService {
 
     public Role findById(String id) {
         return roleDao.findOne(id);
-    }
-
-    public long count() {
-        return roleDao.count();
     }
 
     public Result delete(String id) {

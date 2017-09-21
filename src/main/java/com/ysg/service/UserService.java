@@ -146,7 +146,7 @@ public class UserService {
             if (user != null) {
                 List<UserRoleObj> collect = userRoleService.findByUserId(user.getId())
                         .stream()
-                        .filter(e -> e.getApp().getName().equalsIgnoreCase(emailApp.getAppName()))
+                        .filter(e -> e.getApp().getId().equalsIgnoreCase(emailApp.getAppName()))
                         .collect(Collectors.toList());
                 String appName = collect.stream().map(e -> e.getApp().getId()).findFirst().orElse("");
                 List<String> roleIds = new ArrayList();
@@ -157,9 +157,11 @@ public class UserService {
 
                 List<City> linkedCities = userCityService.getLinkedCities(user.getId());
                 return new UserInfoObj(user, appName, roleIds, roles, linkedCities);
+            } else {
+                return null;
             }
         }
-        return new UserInfoObj();
+        return null;
     }
 
     public List<User> getUsersNotLinkedToApp(String appId) {

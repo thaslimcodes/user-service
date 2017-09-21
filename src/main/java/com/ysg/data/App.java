@@ -21,8 +21,4 @@ public class App implements Serializable {
     @Getter
     @Setter
     private String id;
-
-    @Getter
-    @Setter
-    private String name;
 }

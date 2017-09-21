@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Thaslim on 22/04/17.
@@ -43,13 +42,13 @@ public class AppService {
         }
     }
 
-    public Result save(App app) {
-        if (app.getId() != null && !app.getId().isEmpty()) {
-            return new Result(0, "App Name cannot be updated only added. Provide blank Id");
+    public Result insert(App app) {
+        if(!appDao.exists(app.getId())) {
+            appDao.save(app);
+            return new Result(1, app.getId());
+        } else {
+            return new Result(0, "App already exists with this name");
         }
-        app.setId(UUID.randomUUID().toString());
-        appDao.save(app);
-        return new Result(1, app.getId());
     }
 
     public List<App> getAppsNotLinkedToUser(String userId) {

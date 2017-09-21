@@ -24,18 +24,6 @@ public class UserCityResource {
         return ResponseEntity.ok().body(userCityService.findAll());
     }
 
-    @RequestMapping(value = "/getCitiesLinkedToUser", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ResponseEntity getLinkedCities(@RequestParam("userId") String userId) {
-        return ResponseEntity.ok().body(userCityService.getLinkedCities(userId));
-    }
-
-    @RequestMapping(value = "/getCitiesNotLinkedToUser", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ResponseEntity getNotLinkedCities(@RequestParam("userId") String userId) {
-        return ResponseEntity.ok().body(userCityService.getNotLinkedCities(userId));
-    }
-
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ResponseEntity insert(@RequestBody UserCityId userCityId) {

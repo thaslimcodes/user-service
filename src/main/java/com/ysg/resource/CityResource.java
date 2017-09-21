@@ -3,6 +3,7 @@ package com.ysg.resource;
 
 import com.ysg.data.City;
 import com.ysg.service.CityService;
+import com.ysg.service.UserCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class CityResource {
 
     @Autowired
     public CityService cityService;
+
+    @Autowired
+    public UserCityService userCityService;
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -47,4 +51,18 @@ public class CityResource {
     public ResponseEntity delete(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(cityService.delete(id));
     }
+
+
+    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity getLinkedCities(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok().body(userCityService.getLinkedCities(userId));
+    }
+
+    @RequestMapping(value = "/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity getNotLinkedCities(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok().body(userCityService.getNotLinkedCities(userId));
+    }
+
 }

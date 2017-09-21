@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.ysg</groupId>
-	<artifactId>appRoleUser-services</artifactId>
+	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>user-service</name>
-	<description>Demo project for Spring Boot</description>
+	<description>App User Role Service</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

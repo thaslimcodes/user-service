@@ -32,23 +32,16 @@ public class AppResource {
         return ResponseEntity.ok().body(appService.findById(id));
     }
 
-    @RequestMapping(value = "/getAppsNotLinkedToUser", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getAppsNotLinkedToUsers(@RequestParam("userId") String userId) {
+    public ResponseEntity getAppsNotLinkedToUsers(@PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(appService.getAppsNotLinkedToUser(userId));
     }
 
-    @Secured(scopes = Constants.SUPER_ADMIN)
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity insert(@RequestBody App app) {
-        return ResponseEntity.ok().body(appService.save(app));
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity update(@RequestBody App app) {
-        return ResponseEntity.ok().body(appService.save(app));
+        return ResponseEntity.ok().body(appService.insert(app));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")

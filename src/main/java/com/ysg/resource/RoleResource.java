@@ -30,15 +30,15 @@ public class RoleResource {
         return ResponseEntity.ok().body(roleService.findById(id));
     }
 
-    @RequestMapping(value = "getRolesNotLinkedToAppUser", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/apps/{appId}/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getRolesNotLinkedToAppUser(@RequestParam("appId") String appId, @RequestParam("userId") String userId) {
+    public ResponseEntity getRolesNotLinkedToAppUser(@PathVariable("appId") String appId, @PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(roleService.getRolesNotLinkedToAppUser(appId, userId));
     }
 
-    @RequestMapping(value = "getRolesLinkedToAppUser", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/apps/{appId}/users/{userId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getRolesLinkedToAppUser(@RequestParam("appId") String appId, @RequestParam("userId") String userId) {
+    public ResponseEntity getRolesLinkedToAppUser(@PathVariable("appId") String appId, @PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(roleService.getRolesLinkedToAppUser(appId, userId));
     }
 
