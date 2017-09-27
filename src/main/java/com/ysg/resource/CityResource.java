@@ -34,6 +34,12 @@ public class CityResource {
         return ResponseEntity.ok().body(cityService.findById(id));
     }
 
+    @RequestMapping(value = "/{id}/name", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity findCityName(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(cityService.findCityName(id));
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity insert(@RequestBody City city) {

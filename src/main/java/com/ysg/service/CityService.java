@@ -55,4 +55,8 @@ public class CityService {
         return new Result(1, city.getId());
     }
 
+    public String findCityName(String id) {
+        City city = cityDao.findOne(id);
+        return city!=null?city.getName():"";
+    }
 }
