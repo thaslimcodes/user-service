@@ -29,4 +29,5 @@ public class GoogleTokenResponse {
     @Getter
     @Setter
     private String picture;
+
 }

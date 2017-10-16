@@ -1,6 +1,6 @@
 spring:
   application:
-    name: user-service
+    name: iota-services
   cloud:
     config:
       uri: http://localhost:8888
@@ -13,4 +13,13 @@ spring:
   cloud:
     config:
       uri: http://config-service:8888
+      fail-fast: true
+
+---
+
+spring:
+  profiles: aws
+  cloud:
+    config:
+      uri: http://100.0.1.100:8888
       fail-fast: true
