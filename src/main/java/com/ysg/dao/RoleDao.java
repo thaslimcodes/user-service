@@ -28,7 +28,7 @@ public interface RoleDao extends CrudRepository<Role, String> {
     @Query("SELECT r FROM Role r WHERE r.id IN (SELECT ur.id.roleId FROM UserRole ur WHERE ur.id.appId=:appId AND ur.id.userId=:userId)")
     List<Role> getRolesLinkedToUser(@Param("userId") String userId, @Param("appId") String appId);
 
-    @Query("SELECT new com.ysg.model.AppRoleDetail(a.id, r.id, r.name)  FROM Role r, UserRole ur, App a WHERE  r.id=ur.id.roleId and ur.id.appId=a.id and ur.id.appId=:appId AND ur.id.userId=:userId")
+    @Query("SELECT new com.ysg.model.AppRoleDetail(ur.id.appId, ur.id.roleId, r.name)  FROM Role r, UserRole ur WHERE  r.id=ur.id.roleId and ur.id.userId=:userId")
     List<AppRoleDetail> getRolesLinkedToUser(@Param("userId") String userId);
 
 

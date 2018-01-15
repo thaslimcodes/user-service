@@ -25,7 +25,7 @@ public class AppRoleResource {
         return ResponseEntity.ok().body(appRoleService.save(ur));
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, produces = "application/json")
     @ResponseBody
     public ResponseEntity delete(@RequestBody AppRoleId ur) {
         return ResponseEntity.ok().body(appRoleService.delete(ur));
