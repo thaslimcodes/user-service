@@ -1,6 +1,8 @@
 package com.ysg.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import java.io.Serializable;
 /**
  * Created by vrathakumar on 3/29/2017.
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "city")
 public class City implements Serializable {
@@ -27,12 +31,9 @@ public class City implements Serializable {
     @Setter
     private String name;
 
-    public City() {
 
-    }
+    @Getter
+    @Setter
+    private String opsCityId;
 
-    public City(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

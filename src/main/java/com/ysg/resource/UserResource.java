@@ -1,6 +1,5 @@
 package com.ysg.resource;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ysg.data.User;
 import com.ysg.model.*;
 import com.ysg.security.TokenService;

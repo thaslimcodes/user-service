@@ -2,9 +2,7 @@ package com.ysg.resource;
 
 
 import com.ysg.data.App;
-import com.ysg.security.Secured;
 import com.ysg.service.AppService;
-import com.ysg.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +29,13 @@ public class AppResource {
     public ResponseEntity find(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(appService.findById(id));
     }
+
+    @RequestMapping(value = "/{id}/roles", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity findRoles(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(appService.findRoles(id));
+    }
+
 
     @RequestMapping(value = "/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody

@@ -3,6 +3,7 @@ package com.ysg.service;
 
 import com.ysg.dao.RoleDao;
 import com.ysg.data.Role;
+import com.ysg.model.AppRoleDetail;
 import com.ysg.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,7 +58,13 @@ public class RoleService {
         return roleDao.getRolesNotLinkedToAppUser(appId, userId);
     }
 
-    public List<Role> getRolesLinkedToAppUser(String appId, String userId) {
-        return roleDao.getRolesLinkedToAppUser(appId, userId);
+    public List<Role> getRolesLinkedToUser(String userId, String appId) {
+            return roleDao.getRolesLinkedToUser(userId, appId);
     }
+
+    public List<AppRoleDetail> getRolesLinkedToUser(String userId) {
+        return roleDao.getRolesLinkedToUser(userId);
+    }
+
+
 }

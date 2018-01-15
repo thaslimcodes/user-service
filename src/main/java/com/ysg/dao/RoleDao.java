@@ -1,6 +1,7 @@
 package com.ysg.dao;
 
 import com.ysg.data.Role;
+import com.ysg.model.AppRoleDetail;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,10 @@ public interface RoleDao extends CrudRepository<Role, String> {
     List<Role> getRolesNotLinkedToAppUser(@Param("appId") String appId, @Param("userId") String userId);
 
     @Query("SELECT r FROM Role r WHERE r.id IN (SELECT ur.id.roleId FROM UserRole ur WHERE ur.id.appId=:appId AND ur.id.userId=:userId)")
-    List<Role> getRolesLinkedToAppUser(@Param("appId") String appId, @Param("userId") String userId);
+    List<Role> getRolesLinkedToUser(@Param("userId") String userId, @Param("appId") String appId);
+
+    @Query("SELECT new com.ysg.model.AppRoleDetail(a.id, r.id, r.name)  FROM Role r, UserRole ur, App a WHERE  r.id=ur.id.roleId and ur.id.appId=a.id and ur.id.appId=:appId AND ur.id.userId=:userId")
+    List<AppRoleDetail> getRolesLinkedToUser(@Param("userId") String userId);
+
+
 }
