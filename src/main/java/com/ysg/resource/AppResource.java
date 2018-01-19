@@ -24,18 +24,18 @@ public class AppResource {
         return ResponseEntity.ok().body(appService.findAll());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ResponseEntity find(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(appService.findById(id));
-    }
 
     @RequestMapping(value = "/{id}/roles", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity findRoles(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(appService.findRoles(id));
+    public ResponseEntity findRolesForApp(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(appService.findRolesForApp(id));
     }
 
+    @RequestMapping(value = "/{id}/roles/notLinked", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity findNotLinkedRolesForApp(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(appService.findNotLinkedRolesForApp(id));
+    }
 
     @RequestMapping(value = "/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -49,9 +49,4 @@ public class AppResource {
         return ResponseEntity.ok().body(appService.insert(app));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    @ResponseBody
-    public ResponseEntity delete(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(appService.delete(id));
-    }
 }

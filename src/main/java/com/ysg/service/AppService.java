@@ -26,13 +26,6 @@ public class AppService {
         return (List) appDao.findAll();
     }
 
-    public App findById(String id) {
-        return appDao.findOne(id);
-    }
-
-    public long count() {
-        return appDao.count();
-    }
 
     public Result delete(String id) {
         try {
@@ -56,7 +49,11 @@ public class AppService {
         return appDao.getAppsNotLinkedToUser(userId);
     }
 
-    public List<Role> findRoles(String id) {
+    public List<Role> findRolesForApp(String id) {
         return appDao.findRoles(id);
+    }
+
+    public List<Role> findNotLinkedRolesForApp(String id) {
+        return appDao.findNotLinkedRoles(id);
     }
 }

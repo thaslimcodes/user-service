@@ -30,7 +30,7 @@ public class UserCityResource {
         return ResponseEntity.ok().body(userCityService.insert(userCityId));
     }
 
-    @RequestMapping(value = "delete", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ResponseEntity delete(@RequestBody UserCityId userCityId) {
         return ResponseEntity.ok().body(userCityService.delete(userCityId));

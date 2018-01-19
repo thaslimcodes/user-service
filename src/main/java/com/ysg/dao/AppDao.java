@@ -18,4 +18,7 @@ public interface AppDao extends CrudRepository<App, String> {
 
     @Query("select r from Role r where r.id in (select ar.id.roleId from AppRole ar where ar.id.appId=:appId) ")
     List<Role> findRoles(@Param("appId") String appId);
+
+    @Query("select r from Role r where r.id not in (select ar.id.roleId from AppRole ar where ar.id.appId=:appId) ")
+    List<Role> findNotLinkedRoles(@Param("appId") String appId);
 }

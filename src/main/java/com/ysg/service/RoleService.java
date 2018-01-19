@@ -59,7 +59,8 @@ public class RoleService {
     }
 
     public List<Role> getRolesLinkedToUser(String userId, String appId) {
-            return roleDao.getRolesLinkedToUser(userId, appId);
+            List<Role> roles =  roleDao.getRolesLinkedToUser(userId, appId);
+            return roles;
     }
 
     public List<AppRoleDetail> getRolesLinkedToUser(String userId) {
