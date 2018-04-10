@@ -2,7 +2,9 @@ package com.ysg.service;
 
 
 import com.ysg.dao.CityDao;
+import com.ysg.dao.StateDao;
 import com.ysg.data.City;
+import com.ysg.data.State;
 import com.ysg.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,9 @@ public class CityService {
 
     @Autowired
     public CityDao cityDao;
+
+    @Autowired
+    public StateDao stateDao;
 
     public List<City> findAll() {
         return (List) cityDao.findAll();
@@ -58,5 +63,13 @@ public class CityService {
     public String findCityName(String id) {
         City city = cityDao.findOne(id);
         return city!=null?city.getName():"";
+    }
+
+    public Iterable<State> getAllStates() {
+        return stateDao.findAll();
+    }
+
+    public State findByStateId(String id) {
+        return stateDao.findOne(id);
     }
 }

@@ -59,10 +59,10 @@ public class CityResource {
     }
 
 
-    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity getLinkedCities(@PathVariable("userId") String userId) {
-        return ResponseEntity.ok().body(userCityService.getLinkedCities(userId));
+    public ResponseEntity citiesByUser(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(userCityService.getLinkedCities(id));
     }
 
     @RequestMapping(value = "/users/{userId}/notLinked", method = RequestMethod.GET, produces = "application/json")

@@ -23,3 +23,12 @@ spring:
     config:
       uri: http://100.0.1.100:8888
       fail-fast: true
+
+---
+
+spring:
+  profiles: dev
+  cloud:
+    config:
+      uri: http://180.0.0.6:8888
+      fail-fast: true

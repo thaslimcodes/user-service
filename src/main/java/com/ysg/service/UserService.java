@@ -8,15 +8,18 @@ import com.ysg.data.City;
 import com.ysg.data.Role;
 import com.ysg.data.User;
 import com.ysg.model.*;
+import com.ysg.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Thaslim on 27/03/17.
@@ -112,4 +115,27 @@ public class UserService {
         return list;
 
     }
+
+    public User get(String email) {
+        return userDao.findByEmail(email.trim().toLowerCase());
+    }
+
+    public UserScope authenticate(String email, String app) {
+
+        User user = get(email);
+        if (user == null)
+            return null;
+
+        return new UserScope(user.getId(), userDao.getRoles(app, email));
+    }
+
+
+    public String [] getEmailIdsForAppRoleCity(String appId, String roleId, String cityId) {
+        return userDao.getEmailIdsForAppRoleCity(appId, roleId, cityId).stream().toArray(String[]::new);
+    }
+
+    public String [] getEmailIdsForAppRole(String appId, String roleId) {
+        return userDao.getEmailIdsForAppRole(appId, roleId).stream().toArray(String[]::new);
+    }
+
 }

@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +59,20 @@ public class UserResource {
         return ResponseEntity.ok().body(userService.getUsersNotLinkedToApp(appId));
     }
 
+    @RequestMapping(value = "/emails/apps/{appId}/roles/{roleId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity getEmailsForAppRole(@PathVariable("appId") String appId,
+                                              @PathVariable("roleId") String roleId) {
+        return ResponseEntity.ok().body(userService.getEmailIdsForAppRole(appId, roleId));
+    }
+
+    @RequestMapping(value = "/emails/apps/{appId}/roles/{roleId}/city/{cityId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity getEmailsForAppRoleCity(@PathVariable("appId") String appId,
+                                                  @PathVariable("roleId") String roleId,
+                                                  @PathVariable("cityId") String cityId) {
+        return ResponseEntity.ok().body(userService.getEmailIdsForAppRoleCity(appId, roleId, cityId));
+    }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
@@ -87,29 +103,63 @@ public class UserResource {
     @ResponseBody
     public ResponseEntity signIn(@RequestBody Token token) {
         GoogleTokenResponse res = googleTokenService.verify(token.getToken());
-        if (res == null) {
+        if(res.getEmail() == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        if (token.getAppName() == null || token.getAppName().isEmpty()) {
-            token.setAppName(Constants.APP_NAME);
-        }
-        UserInfoObj userInfoObj = userService.getAppInfo(new EmailApp(res.getEmail(), token.getAppName()));
-        if (userInfoObj == null) {
+        token.setAppName(Constants.APP_NAME);
+
+
+        UserScope userScope = userService.authenticate(res.getEmail(), token.getAppName());
+        if(userScope == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        String[] scopes = new String[userScope.getRoles().size()];
+        scopes = userScope.getRoles().toArray(scopes);
 
-        String session = tokenService.generate(userInfoObj, new String[]{audience});
+        String session = tokenService.generate(userScope.getUser(), new String[]{ audience }, scopes);
+
 
         Profile profile = new Profile();
         profile.setName(res.getName());
-        profile.setId(userInfoObj.getUser().getId());
         profile.setPhoto(res.getPicture());
         profile.setToken(session);
-        profile.setRoles(userInfoObj.getRoles());
-        profile.setCityList(userInfoObj.getCityList());
+        profile.setRoles(userScope.getRoles());
 
         return ResponseEntity.ok(profile);
+
     }
 
- }
+    @RequestMapping(value = "/signInApp", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity signInApp(@RequestBody Token token) {
+        try {
+            GoogleTokenResponse res = googleTokenService.verify(token.getToken());
+            logger.info(res.getEmail());
+            if (res.getEmail() == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            UserScope userScope = userService.authenticate(res.getEmail(), token.getAppName());
+            logger.info(res.getEmail());
+            if (userScope == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            Profile profile = new Profile();
+            profile.setName(res.getName());
+            profile.setPhoto(res.getPicture());
+            profile.setUserScope(userScope);
+            profile.setRoles(userScope.getRoles());
+            return ResponseEntity.ok(profile);
+        } catch (Exception ex) {
+            logger.info(ex.getMessage());
+        }
+        return null;
+    }
+
+
+
+
+
+}
